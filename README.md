@@ -21,7 +21,13 @@ Endpoints principales:
 - `POST /v1/consistency/evaluate`
 - `GET /docs`
 
-El dataset sintetico vive en `data/synthetic_forest.json` y contiene escenarios Verde, Amarillo y Rojo.
+El backend usa `data/real_forest.json` cuando existe. Ese archivo se genera desde los archivos reales entregados en `data/`:
+
+```powershell
+python scripts/import_real_files.py
+```
+
+El dataset sintético (`data/synthetic_forest.json`) queda como fallback y como fixture de pruebas controladas con escenarios Verde, Amarillo y Rojo.
 
 ## Frontend local
 

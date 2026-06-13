@@ -137,6 +137,8 @@ label {
   align-self: start;
   display: grid;
   gap: 0.85rem;
+  max-height: calc(100vh - 7.5rem);
+  overflow: auto;
   padding: 1rem;
 }
 

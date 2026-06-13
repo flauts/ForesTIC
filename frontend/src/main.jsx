@@ -35,6 +35,7 @@ function App() {
   const [passports, setPassports] = useState([]);
   const [audit, setAudit] = useState([]);
   const [selectedId, setSelectedId] = useState("");
+  const [selectedDetail, setSelectedDetail] = useState(null);
   const [activeRole, setActiveRole] = useState("productor");
   const [verificationToken, setVerificationToken] = useState("");
   const [verification, setVerification] = useState(null);
@@ -42,8 +43,8 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const selected = useMemo(
-    () => passports.find((passport) => passport.passport_id === selectedId) ?? passports[0],
-    [passports, selectedId],
+    () => selectedDetail ?? passports.find((passport) => passport.passport_id === selectedId) ?? passports[0],
+    [passports, selectedDetail, selectedId],
   );
 
   useEffect(() => {
@@ -51,10 +52,16 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (selected && !verificationToken) {
-      setVerificationToken(selected.qr_token);
+    if (selectedId) {
+      loadPassport(selectedId);
     }
-  }, [selected, verificationToken]);
+  }, [selectedId]);
+
+  useEffect(() => {
+    if (selectedDetail?.qr_token) {
+      setVerificationToken(selectedDetail.qr_token);
+    }
+  }, [selectedDetail]);
 
   async function api(path, options) {
     const response = await fetch(`${API_BASE}${path}`, {
@@ -72,17 +79,26 @@ function App() {
     setError("");
     setLoading(true);
     try {
-      const [passportData, auditData] = await Promise.all([api("/v1/passports"), api("/v1/audit")]);
+      const [passportData, auditData] = await Promise.all([api("/v1/passports/summary"), api("/v1/audit")]);
       setPassports(passportData);
       setAudit(auditData);
       if (!selectedId && passportData[0]) {
         setSelectedId(passportData[0].passport_id);
-        setVerificationToken(passportData[0].qr_token);
       }
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function loadPassport(passportId) {
+    setError("");
+    try {
+      const passport = await api(`/v1/passports/${passportId}`);
+      setSelectedDetail(passport);
+    } catch (err) {
+      setError(err.message);
     }
   }
 
@@ -110,6 +126,7 @@ function App() {
       });
       await refresh();
       setSelectedId(passport.passport_id);
+      setSelectedDetail(passport);
       setVerificationToken(passport.qr_token);
     } catch (err) {
       setError(err.message);
@@ -122,7 +139,7 @@ function App() {
     setError("");
     setLoading(true);
     try {
-      await api(`/v1/passports/${selected.passport_id}/revoke`, {
+      const updated = await api(`/v1/passports/${selected.passport_id}/revoke`, {
         method: "POST",
         body: JSON.stringify({
           reason: "Revocacion demo por nueva evidencia institucional",
@@ -130,6 +147,7 @@ function App() {
         }),
       });
       await refresh();
+      setSelectedDetail(updated);
     } catch (err) {
       setError(err.message);
       setLoading(false);
@@ -140,7 +158,7 @@ function App() {
     <main className="app-shell">
       <header className="topbar">
         <div>
-          <p className="eyebrow">OSINFOR · Datos sinteticos</p>
+          <p className="eyebrow">OSINFOR · Archivos reales integrados</p>
           <h1>Pasaporte Digital de Madera Legal</h1>
         </div>
         <button className="icon-button" onClick={refresh} disabled={loading} title="Actualizar datos">
@@ -169,7 +187,6 @@ function App() {
                 selected={selected?.passport_id === passport.passport_id}
                 onSelect={() => {
                   setSelectedId(passport.passport_id);
-                  setVerificationToken(passport.qr_token);
                   setVerification(null);
                 }}
               />
@@ -178,7 +195,7 @@ function App() {
         </aside>
 
         <section className="main-panel">
-          {selected && <PassportSummary passport={selected} onVerify={() => verifyToken(selected.qr_token)} />}
+          {selected && <PassportSummary passport={selected} onVerify={() => verifyToken(selectedDetail?.qr_token ?? verificationToken)} />}
 
           <div className="tabs" role="tablist" aria-label="Vistas por rol">
             {roleTabs.map((tab) => {
@@ -198,7 +215,7 @@ function App() {
             })}
           </div>
 
-          {activeRole === "productor" && selected && (
+          {activeRole === "productor" && selectedDetail && (
             <ProducerView passport={selected} onIssue={issue} token={verificationToken} setToken={setVerificationToken} />
           )}
           {activeRole === "control" && (
@@ -210,7 +227,7 @@ function App() {
             />
           )}
           {activeRole === "comprador" && <BuyerView verification={verification} selected={selected} onVerify={() => verifyToken()} />}
-          {activeRole === "admin" && selected && <AdminView passport={selected} audit={audit} onRevoke={revoke} />}
+          {activeRole === "admin" && selectedDetail && <AdminView passport={selectedDetail} audit={audit} onRevoke={revoke} />}
         </section>
       </section>
     </main>
@@ -238,7 +255,7 @@ function PassportRow({ passport, selected, onSelect }) {
 function PassportSummary({ passport, onVerify }) {
   const tone = toneByLight[passport.semaforo];
   const Icon = tone.icon;
-  const importantReasons = passport.razones.filter((reason) => reason.level !== "ok").slice(0, 3);
+  const importantReasons = (passport.razones ?? []).filter((reason) => reason.level !== "ok").slice(0, 3);
   return (
     <section className={`summary-band ${tone.className}`}>
       <div>

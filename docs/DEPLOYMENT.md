@@ -38,7 +38,32 @@ npm run dev
 - Amarillo: `GTF-2026-002`
 - Rojo: `GTF-2026-003`
 
-El archivo `data/pasaporte_datos_sinteticos.xlsx` contiene las hojas simuladas descritas en el SPEC. La API usa `data/synthetic_forest.json` como fuente cargable para mantener el prototipo ligero y reproducible.
+## Datos reales de la competencia
+
+Los archivos originales entregados por la competencia viven en:
+
+- `data/Censo Forestal/BD - CENSO FORESTAL.xlsx`
+- `data/Muestra Supervisada/BD - MUESTRA SUPERVISADA.xlsx`
+- `data/Libro Operaciones/*.xlsx`
+- `data/Balance Extracción/*.pdf`
+
+Para regenerar el dataset canónico:
+
+```powershell
+python scripts/import_real_files.py
+```
+
+El script produce `data/real_forest.json` con:
+
+- árboles censados normalizados por `PC-XX-CODIGO`;
+- muestras supervisadas OSINFOR;
+- trozas despachadas y GTF agrupadas desde LOE;
+- balances extraídos de PDF;
+- alertas críticas por saldos negativos.
+
+La API prefiere `data/real_forest.json` si existe y cae a `data/synthetic_forest.json` si no está disponible.
+
+El archivo `data/pasaporte_datos_sinteticos.xlsx` se mantiene como dataset sintético de demo y pruebas explicables.
 
 ## Seguridad del prototipo
 
