@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -22,10 +23,19 @@ audit = AuditLog()
 passports = PassportService(store, engine, audit, SECRET)
 passports.bootstrap_demo_passports()
 
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    if not passports.passports:
+        passports.bootstrap_demo_passports()
+    yield
+
+
 app = FastAPI(
     title="Pasaporte Digital de Madera Legal OSINFOR",
     version="0.1.0",
     description="Prototipo interoperable con datos sinteticos, motor deterministico y QR firmado.",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -35,13 +45,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.on_event("startup")
-def bootstrap() -> None:
-    if not passports.passports:
-        passports.bootstrap_demo_passports()
-
 
 @app.get("/health")
 def health() -> dict[str, str]:
