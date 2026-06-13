@@ -22,3 +22,24 @@ Endpoints principales:
 - `GET /docs`
 
 El dataset sintetico vive en `data/synthetic_forest.json` y contiene escenarios Verde, Amarillo y Rojo.
+
+## Frontend local
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Por defecto consume `http://localhost:8000`. Puedes cambiarlo con `VITE_API_URL`.
+
+## Docker Compose
+
+```powershell
+docker compose up --build
+```
+
+- API: http://localhost:8000
+- Frontend: http://localhost:5173
+
+Mas detalle en `docs/DEPLOYMENT.md`.
