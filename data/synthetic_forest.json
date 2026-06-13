@@ -1,0 +1,248 @@
+{
+  "titulos_habilitantes": [
+    {
+      "titulo_habilitante_id": "TH-BELGICA-2025",
+      "codigo_titulo": "CN-BELGICA-2025-2028",
+      "tipo_titulo": "Comunidad Nativa",
+      "region": "Madre de Dios",
+      "estado": "vigente",
+      "fecha_inicio": "2025-01-01",
+      "fecha_fin": "2028-12-31",
+      "fuente_origen": "EXCEL_SINTETICO"
+    }
+  ],
+  "planes_operativos": [
+    {
+      "plan_operativo_id": "POA-BELGICA-01",
+      "titulo_habilitante_id": "TH-BELGICA-2025",
+      "codigo_poa": "POA-2025-2028",
+      "periodo_inicio": "2025-01-01",
+      "periodo_fin": "2028-12-31",
+      "estado_aprobacion": "aprobado",
+      "volumen_total_autorizado_m3": 48964.013,
+      "fuente_origen": "EXCEL_SINTETICO"
+    }
+  ],
+  "parcelas_corta": [
+    {
+      "parcela_corta_id": "PC-01",
+      "plan_operativo_id": "POA-BELGICA-01",
+      "codigo_pc": "PC-01",
+      "area_ha": 2263.53,
+      "volumen_autorizado_m3": 16320.0,
+      "estado": "autorizada"
+    },
+    {
+      "parcela_corta_id": "PC-02",
+      "plan_operativo_id": "POA-BELGICA-01",
+      "codigo_pc": "PC-02",
+      "area_ha": 2263.53,
+      "volumen_autorizado_m3": 16280.0,
+      "estado": "autorizada"
+    },
+    {
+      "parcela_corta_id": "PC-03",
+      "plan_operativo_id": "POA-BELGICA-01",
+      "codigo_pc": "PC-03",
+      "area_ha": 2263.54,
+      "volumen_autorizado_m3": 16364.013,
+      "estado": "autorizada"
+    }
+  ],
+  "censo_forestal": [
+    {
+      "cod_arbol": "BEL-2025-0100",
+      "parcela_corta_id": "PC-01",
+      "especie_declarada": "Shihuahuaco",
+      "coordenada_utm_este": 485210.2,
+      "coordenada_utm_norte": 8612301.7,
+      "dap_cm": 86.4,
+      "altura_m": 28.5,
+      "volumen_estimado_m3": 9.42,
+      "estado_censal": "autorizado",
+      "fuente_origen": "EXCEL_SINTETICO"
+    },
+    {
+      "cod_arbol": "BEL-2025-0200",
+      "parcela_corta_id": "PC-02",
+      "especie_declarada": "Cedro",
+      "coordenada_utm_este": 486112.8,
+      "coordenada_utm_norte": 8611840.4,
+      "dap_cm": 71.2,
+      "altura_m": 24.1,
+      "volumen_estimado_m3": 6.12,
+      "estado_censal": "autorizado",
+      "fuente_origen": "EXCEL_SINTETICO"
+    },
+    {
+      "cod_arbol": "BEL-2025-0300",
+      "parcela_corta_id": "PC-03",
+      "especie_declarada": "Tornillo",
+      "coordenada_utm_este": 487020.9,
+      "coordenada_utm_norte": 8610980.1,
+      "dap_cm": 64.0,
+      "altura_m": 22.0,
+      "volumen_estimado_m3": 5.4,
+      "estado_censal": "autorizado",
+      "fuente_origen": "EXCEL_SINTETICO"
+    }
+  ],
+  "muestra_supervisada": [
+    {
+      "muestra_id": "MS-001",
+      "cod_arbol": "BEL-2025-0100",
+      "supervision_id": "SUP-2026-001",
+      "estado_supervision": "conforme",
+      "especie_verificada": "Shihuahuaco",
+      "utm_este_verificado": 485211.3,
+      "utm_norte_verificado": 8612300.9,
+      "desviacion_metros": 1.4,
+      "fecha_supervision": "2026-05-18",
+      "evidencia_hash": "9c2d7ddf-demo-green",
+      "archivo_geomatica_ref": "sisfor/sup-2026-001.geojson"
+    },
+    {
+      "muestra_id": "MS-003",
+      "cod_arbol": "BEL-2025-0300",
+      "supervision_id": "SUP-2026-003",
+      "estado_supervision": "conforme",
+      "especie_verificada": "Tornillo",
+      "utm_este_verificado": 487049.0,
+      "utm_norte_verificado": 8611002.0,
+      "desviacion_metros": 35.2,
+      "fecha_supervision": "2026-05-22",
+      "evidencia_hash": "ad71cfe0-demo-yellow",
+      "archivo_geomatica_ref": "sisfor/sup-2026-003.geojson"
+    }
+  ],
+  "trozas": [
+    {
+      "troza_id": "BEL-2025-0100-A",
+      "codigo_troza": "0100-A",
+      "cod_arbol": "BEL-2025-0100",
+      "especie": "Shihuahuaco",
+      "volumen_m3": 4.52,
+      "longitud_m": 4.0,
+      "diametro_promedio_cm": 72.0,
+      "estado": "despachada"
+    },
+    {
+      "troza_id": "BEL-2025-0100-B",
+      "codigo_troza": "0100-B",
+      "cod_arbol": "BEL-2025-0100",
+      "especie": "Shihuahuaco",
+      "volumen_m3": 4.4,
+      "longitud_m": 4.0,
+      "diametro_promedio_cm": 70.0,
+      "estado": "despachada"
+    },
+    {
+      "troza_id": "BEL-2025-0200-A",
+      "codigo_troza": "0200-A",
+      "cod_arbol": "BEL-2025-0200",
+      "especie": "Cedro",
+      "volumen_m3": 5.8,
+      "longitud_m": 3.8,
+      "diametro_promedio_cm": 61.0,
+      "estado": "despachada"
+    },
+    {
+      "troza_id": "BEL-2025-9999-A",
+      "codigo_troza": "9999-A",
+      "cod_arbol": "BEL-2025-9999",
+      "especie": "Tornillo",
+      "volumen_m3": 7.9,
+      "longitud_m": 4.2,
+      "diametro_promedio_cm": 80.0,
+      "estado": "despachada"
+    }
+  ],
+  "gtf": [
+    {
+      "gtf_id": "GTF-2026-001",
+      "numero_gtf": "000321-2026-GOREMAD",
+      "fecha_emision": "2026-06-10",
+      "fecha_vencimiento": "2026-07-10",
+      "origen": "Comunidad Nativa Belgica - PC-01",
+      "destino": "Centro de transformacion Puerto Maldonado",
+      "volumen_total_m3": 8.92,
+      "estado_gtf": "vigente",
+      "lote_id": "LOTE-VERDE-001",
+      "especie": "Shihuahuaco",
+      "trozas": ["BEL-2025-0100-A", "BEL-2025-0100-B"],
+      "payload_hash": "3bf7-demo-gtf-green"
+    },
+    {
+      "gtf_id": "GTF-2026-002",
+      "numero_gtf": "000322-2026-GOREMAD",
+      "fecha_emision": "2026-06-10",
+      "fecha_vencimiento": "2026-07-10",
+      "origen": "Comunidad Nativa Belgica - PC-02",
+      "destino": "Aserradero autorizado",
+      "volumen_total_m3": 5.8,
+      "estado_gtf": "vigente",
+      "lote_id": "LOTE-AMARILLO-001",
+      "especie": "Cedro",
+      "trozas": ["BEL-2025-0200-A"],
+      "payload_hash": "c17d-demo-gtf-yellow"
+    },
+    {
+      "gtf_id": "GTF-2026-003",
+      "numero_gtf": "000155-2026-GOREMAD",
+      "fecha_emision": "2026-04-01",
+      "fecha_vencimiento": "2026-04-30",
+      "origen": "Comunidad Nativa Belgica - PC-03",
+      "destino": "Deposito Lima",
+      "volumen_total_m3": 7.9,
+      "estado_gtf": "vencida",
+      "lote_id": "LOTE-ROJO-001",
+      "especie": "Tornillo",
+      "trozas": ["BEL-2025-9999-A"],
+      "payload_hash": "aa02-demo-gtf-red"
+    }
+  ],
+  "balance_extraccion": [
+    {
+      "balance_id": "BAL-PC01-SHI",
+      "plan_operativo_id": "POA-BELGICA-01",
+      "parcela_corta_id": "PC-01",
+      "especie": "Shihuahuaco",
+      "volumen_autorizado_m3": 1200.0,
+      "volumen_movilizado_m3": 712.35,
+      "volumen_disponible_m3": 487.65,
+      "fecha_corte": "2026-06-10"
+    },
+    {
+      "balance_id": "BAL-PC02-CED",
+      "plan_operativo_id": "POA-BELGICA-01",
+      "parcela_corta_id": "PC-02",
+      "especie": "Cedro",
+      "volumen_autorizado_m3": 240.0,
+      "volumen_movilizado_m3": 225.7,
+      "volumen_disponible_m3": 14.3,
+      "fecha_corte": "2026-06-10"
+    },
+    {
+      "balance_id": "BAL-PC03-TOR",
+      "plan_operativo_id": "POA-BELGICA-01",
+      "parcela_corta_id": "PC-03",
+      "especie": "Tornillo",
+      "volumen_autorizado_m3": 400.0,
+      "volumen_movilizado_m3": 430.0,
+      "volumen_disponible_m3": -30.0,
+      "fecha_corte": "2026-06-10"
+    }
+  ],
+  "alertas": [
+    {
+      "alerta_id": "AL-001",
+      "ambito": "lote",
+      "referencia_id": "LOTE-ROJO-001",
+      "tipo_alerta": "sobreextraccion",
+      "severidad": "critica",
+      "estado_alerta": "vigente",
+      "fecha_alerta": "2026-06-11",
+      "descripcion_normalizada": "Alerta critica vigente por indicio de sobreextraccion."
+    }
+  ]
+}
