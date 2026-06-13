@@ -100,6 +100,12 @@ class PassportService:
         trozas = self.store.trozas_for_gtf(passport.gtf_id)
         especies = sorted({troza["especie"] for troza in trozas} or {gtf["especie"]})
         self.audit.append("passport.verify.public", {"passport_id": passport_id, "semaforo": passport.semaforo})
+        dataset_name = self.store.raw.get("metadata", {}).get("dataset", "")
+        disclaimer = (
+            "Prototipo con archivos reales entregados para la competencia, normalizados para demo. No reemplaza SIGO SFC, SNIFFS, LOE ni GTF oficiales."
+            if dataset_name.startswith("REAL_FILES")
+            else "Prototipo con datos sinteticos. No reemplaza SIGO SFC, SNIFFS, LOE ni GTF oficiales."
+        )
         return PublicVerification(
             estado_pasaporte=passport.estado_pasaporte,
             semaforo=passport.semaforo,
@@ -122,5 +128,5 @@ class PassportService:
             or ["Evidencia consistente sin contradicciones."],
             hash_integridad=passport.hash_integridad,
             fecha_ultima_evaluacion=passport.fecha_ultima_evaluacion,
-            disclaimer="Prototipo con datos sinteticos. No reemplaza SIGO SFC, SNIFFS, LOE ni GTF oficiales.",
+            disclaimer=disclaimer,
         )

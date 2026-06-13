@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from datetime import UTC, date, datetime
+import re
+import unicodedata
+from datetime import date
 
 from .data_store import DataStore
 from .models import ConsistencyResult, RuleResult, TrafficLight
@@ -67,7 +69,10 @@ class ConsistencyEngine:
                 )
             )
 
-            if troza["especie"] != censo["especie_declarada"] or troza["especie"] != gtf["especie"]:
+            gtf_species = gtf.get("especie", "")
+            species_match = species_key(troza["especie"]) == species_key(censo["especie_declarada"])
+            gtf_match = gtf_species == "Mixto" or species_key(troza["especie"]) == species_key(gtf_species)
+            if not species_match or not gtf_match:
                 razones.append(
                     self._critical(
                         "species_mismatch",
@@ -118,11 +123,19 @@ class ConsistencyEngine:
         else:
             razones.append(self._ok("gtf_volume_ok", "El volumen de trozas es consistente con la GTF."))
 
-        for key, balance in self.store.balance.items():
-            parcela_id, especie = key
-            if especie != gtf["especie"]:
+        for balance in self.store.balance_rows:
+            parcela_id = balance["parcela_corta_id"]
+            if gtf.get("especie") != "Mixto" and species_key(balance["especie"]) != species_key(gtf.get("especie", "")):
                 continue
-            if any(self.store.censo.get(cod, {}).get("parcela_corta_id") == parcela_id for cod in cod_arboles):
+            if any(
+                self.store.censo.get(cod, {}).get("parcela_corta_id") == parcela_id
+                and (
+                    gtf.get("especie") == "Mixto"
+                    or species_key(self.store.censo.get(cod, {}).get("especie_declarada", ""))
+                    == species_key(balance["especie"])
+                )
+                for cod in cod_arboles
+            ):
                 if float(balance["volumen_movilizado_m3"]) > float(balance["volumen_autorizado_m3"]) * VOLUME_TOLERANCE:
                     razones.append(
                         self._critical(
@@ -188,3 +201,13 @@ class ConsistencyEngine:
 
     def _critical(self, code: str, message: str, evidence: dict | None = None) -> RuleResult:
         return RuleResult(code=code, level="critical", message=message, evidence=evidence or {})
+
+
+def species_key(value: str) -> str:
+    text = unicodedata.normalize("NFKD", str(value or ""))
+    text = "".join(char for char in text if not unicodedata.combining(char))
+    text = text.lower().replace("|", " ")
+    words = re.findall(r"[a-z]+", text)
+    ignored = {"sp", "spp", "var", "cf", "aff"}
+    useful = [word for word in words if word not in ignored]
+    return " ".join(useful[:2]) if useful else ""

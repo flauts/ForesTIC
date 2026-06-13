@@ -15,9 +15,10 @@ class DataStore:
         }
         self.trozas = {row["troza_id"]: row for row in self.raw["trozas"]}
         self.gtf = {row["gtf_id"]: row for row in self.raw["gtf"]}
+        self.balance_rows = self.raw["balance_extraccion"]
         self.balance = {
             (row["parcela_corta_id"], row["especie"]): row
-            for row in self.raw["balance_extraccion"]
+            for row in self.balance_rows
         }
         self.alertas = self.raw["alertas"]
 

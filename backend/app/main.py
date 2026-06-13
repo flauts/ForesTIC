@@ -14,7 +14,12 @@ from .passports import PassportService
 from .rules import ConsistencyEngine
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-DATA_PATH = Path(os.getenv("FORESTIC_DATA_PATH", BASE_DIR / "data" / "synthetic_forest.json"))
+DEFAULT_DATA_PATH = (
+    BASE_DIR / "data" / "real_forest.json"
+    if (BASE_DIR / "data" / "real_forest.json").exists()
+    else BASE_DIR / "data" / "synthetic_forest.json"
+)
+DATA_PATH = Path(os.getenv("FORESTIC_DATA_PATH", DEFAULT_DATA_PATH))
 SECRET = os.getenv("FORESTIC_QR_SECRET", "dev-secret-change-me")
 
 store = DataStore(DATA_PATH)
@@ -54,6 +59,22 @@ def health() -> dict[str, str]:
 @app.get("/v1/passports")
 def list_passports() -> list:
     return list(passports.passports.values())
+
+
+@app.get("/v1/passports/summary")
+def list_passport_summaries() -> list[dict]:
+    return [
+        {
+            "passport_id": passport.passport_id,
+            "gtf_id": passport.gtf_id,
+            "lote_id": passport.lote_id,
+            "estado_pasaporte": passport.estado_pasaporte,
+            "semaforo": passport.semaforo,
+            "score_confianza": passport.score_confianza,
+            "fecha_ultima_evaluacion": passport.fecha_ultima_evaluacion,
+        }
+        for passport in passports.passports.values()
+    ]
 
 
 @app.get("/v1/passports/{passport_id}")
